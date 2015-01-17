@@ -1,5 +1,5 @@
 
-#include <iostream>
+#include <unistd.h>
 #include "Monitor.hpp"
 #include "UserInfoModule.hpp"
 #include "UserInfoDisplay.hpp"
@@ -10,14 +10,17 @@ UserInfoModule::UserInfoModule(void) :
 
 void	UserInfoModule::update(unsigned long time)
 {
-	(void) time;
+	char	buf[50];
 
-	Monitor::log("Updating UserInfo");
+	gethostname(buf, 50);
+	_data.hostname = std::string(buf);
 
-	_data.hostname = "e1r12p3";
-	_data.username = "amaurer";
+	getlogin_r(buf, 50);
+	_data.username = std::string(buf);
 
 	_display->draw(&_data);
+
+	static_cast<void>(time);
 }
 
 void	UserInfoModule::reset(void)

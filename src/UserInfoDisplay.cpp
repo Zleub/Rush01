@@ -9,4 +9,5 @@ void	UserInfoDisplay::draw(void * d) const
 		static_cast<UserInfoModule::data_t const *>(d);
 
 	std::cout << data->hostname << std::endl;
+	std::cout << data->username << std::endl;
 }
