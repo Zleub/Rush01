@@ -6,7 +6,7 @@
 #    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 10:50:05 by adebray           #+#    #+#              #
-#    Updated: 2015/01/16 22:53:43 by adebray          ###   ########.fr        #
+#    Updated: 2015/01/17 01:42:37 by adebray          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,33 @@ OBJ			=	$(SRC:.cpp=.o)
 
 CC			=	g++
 EXTRA		=	-Woverloaded-virtual
-CCFLAGS		=	$(EXTRA) -Werror -Wall -Wextra -Iinc
-LIBFLAG		=	-lncurses
+CCFLAGS		=	$(EXTRA) -Werror -Wall -Wextra -Iinc -I/nfs/zfs-student-5/users/2013/adebray/.brew/Cellar/sfml/2.1/include
+
+SFMLFLAG	=	-L/nfs/zfs-student-5/users/2013/adebray/.brew/Cellar/sfml/2.1/lib -lsfml-graphics -lsfml-window -lsfml-system
 
 all: $(NAME)
 
-$(NAME):	$(OBJ)
-			@$(CC) $(LIBFLAG) -o $@ $(OBJ)
+arnaud: $(OBJ)
+			@echo $(DYLD_FALLBACK_LIBRARY_PATH)
+ 			ifndef DYLD_FALLBACK_LIBRARY_PATH
+				@echo '\n'"Plz, export DYLD_FALLBACK_LIBRARY_PATH=~/.brew/lib in ordrer to get SFML to work"
+ 			else
+				@$(CC) $(SFMLFLAG) -o $(NAME) $(OBJ) main_arnaud.cpp
+				@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
+ 			endif
+
+arthur: $(OBJ)
+			@$(CC) -o $(NAME) $(OBJ) main_arthur.cpp
 			@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
+
+$(NAME): $(OBJ)
+			@echo $(DYLD_FALLBACK_LIBRARY_PATH)
+ 			ifndef DYLD_FALLBACK_LIBRARY_PATH
+				@echo '\n'"Plz, export DYLD_FALLBACK_LIBRARY_PATH=~/.brew/lib in ordrer to get SFML to work"
+ 			else
+				@$(CC) $(SFMLFLAG) -o $(NAME) $(OBJ) main.cpp
+				@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
+ 			endif
 
 %.o: %.cpp
 			@echo '.''\c'
@@ -41,4 +60,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re $(NAME)
