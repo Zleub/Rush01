@@ -18,9 +18,9 @@ OBJ			=	$(SRC:.cpp=.o)
 
 CC			=	g++
 EXTRA		=	-Woverloaded-virtual
-CCFLAGS		=	$(EXTRA) -Werror -Wall -Wextra -Iinc -I/nfs/zfs-student-5/users/2013/adebray/.brew/include
+CCFLAGS		=	$(EXTRA) -Werror -Wall -Wextra -Iinc
 
-SDLFLAG		=	-L/nfs/zfs-student-5/users/2013/adebray/.brew/lib -lSDL2
+SDLFLAG		=	-I/nfs/zfs-student-5/users/2013/adebray/.brew/include -L/nfs/zfs-student-5/users/2013/adebray/.brew/lib -lSDL2
 
 all: $(NAME)
 
@@ -29,11 +29,11 @@ arnaud: $(OBJ)
 			@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
 
 arthur: $(OBJ)
-			@$(CC) -o $(NAME) $(OBJ) main_arthur.cpp
+			@$(CC) -o $(NAME) $(CCFLAGS) $(OBJ) main_arthur.cpp
 			@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
 
 $(NAME): $(OBJ)
-			@$(CC) -o $(NAME) $(OBJ) main.cpp
+			@$(CC) -o $(NAME) $(CCFLAGS) $(OBJ) main.cpp
 			@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
 
 %.o: %.cpp
