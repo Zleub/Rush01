@@ -1,8 +1,9 @@
 
+#include <iostream>
 #include "Monitor.hpp"
 #include "UserInfoDisplay.hpp"
 #include "UserInfoModule.hpp"
-#include <iostream>
+
 void	UserInfoDisplay::draw(void * d) const
 {
 	UserInfoModule::data_t const *	data =
