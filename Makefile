@@ -6,7 +6,7 @@
 #    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 10:50:05 by adebray           #+#    #+#              #
-#    Updated: 2015/01/17 03:39:59 by adebray          ###   ########.fr        #
+#    Updated: 2015/01/17 08:23:46 by adebray          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,8 @@ OBJ			=	$(SRC:.cpp=.o)
 
 CC			=	g++
 EXTRA		=	-Woverloaded-virtual
-CCFLAGS		=	$(EXTRA) -Werror -Wall -Wextra -Iinc
-
 SDLFLAG		=	-I/nfs/zfs-student-5/users/2013/adebray/.brew/include -L/nfs/zfs-student-5/users/2013/adebray/.brew/lib -lSDL2
+CCFLAGS		=	$(SDLFLAG) $(EXTRA) -Werror -Wall -Wextra -Iinc
 
 all: $(NAME)
 

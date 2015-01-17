@@ -7,6 +7,29 @@ unsigned long	Monitor::_updateInterval = 1000000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
 std::vector<IMonitorModule*>	Monitor::_modules;
 
+SDL_Window *	Monitor::_window = NULL;
+SDL_Surface *	Monitor::_screenSurface = NULL;
+
+void			Monitor::initSDL(void)
+{
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
+		std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError();
+	}
+	else {
+		_window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 250, 250, SDL_WINDOW_SHOWN );
+		if( _window == NULL ) {
+			std::cout << "Window could not be created! SDL_Error: " << SDL_GetError();
+		}
+		else {
+			_screenSurface = SDL_GetWindowSurface( _window );
+			SDL_FillRect( _screenSurface, NULL, SDL_MapRGB( _screenSurface->format, 0xFF, 0xFF, 0xFF ) );
+			SDL_StartTextInput();
+			// SDL_UpdateWindowSurface( _window );
+			// SDL_Delay( 2000 );
+		}
+	}
+}
+
 void			Monitor::registerModule(IMonitorModule * module)
 {
 	_modules.push_back(module);
@@ -36,6 +59,8 @@ void			Monitor::update(void)
 	gettimeofday(&time, NULL);
 	_lastUpdate = getTime();
 
+	// if (SDL_PollEvent( &e ) != 0 )
+		// SDL_UpdateWindowSurface( _window );
 	update();
 }
 
