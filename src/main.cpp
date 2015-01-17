@@ -1,5 +1,12 @@
 #include <iostream>
+#include "Monitor.hpp"
+#include "UserInfoModule.hpp"
 
-int		main(void) {
-	std::cout << "Hello !" << std::endl;
+int		main(void)
+{
+	Monitor::registerModule(new UserInfoModule());
+
+	Monitor::startMonitoring();
+
+	return 0;
 }
