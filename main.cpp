@@ -1,10 +1,10 @@
 #include <iostream>
 #include <Monitor.hpp>
-#include "TimeModule.hpp"
+#include "CPUModule.hpp"
 
 int		main(void)
 {
-	Monitor::registerModule(new TimeModule());
+	Monitor::registerModule(new CPUModule());
 
 	Monitor::startMonitoring();
 
