@@ -25,13 +25,12 @@ void	CPUDisplay::draw(void * d) const
 	mvwprintw(_window->window, 7, 1, "systemUsage: %.2f", data->systemUsage);
 	mvwprintw(_window->window, 8, 1, "idle: %.2f", data->idle);
 
-
 	int i = 1;
 	int userpercent = getWidth() * data->userUsage / 100;
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	wattrset(_window->window, COLOR_PAIR(1));
 	for(int j = 0; j < userpercent; j++) {
-		mvwprintw(_window->window, 9, i + j, "#");
+		mvwprintw(_window->window, getHeight() - 2, i + j, "|");
 	}
 	wattroff(_window->window, COLOR_PAIR(1));
 
@@ -41,13 +40,21 @@ void	CPUDisplay::draw(void * d) const
 	init_pair(2, 202, COLOR_BLACK);
 	wattrset(_window->window, COLOR_PAIR(2));
 	for(int j = 0; j < systempercent; j++) {
-		mvwprintw(_window->window, 9, i + j, "#");
+		mvwprintw(_window->window, getHeight() - 2, i + j, "|");
 	}
 	wattroff(_window->window, COLOR_PAIR(2));
 
-	mvwprintw(_window->window, 14, 1, "%d", userpercent);
-	mvwprintw(_window->window, 15, 1, "%f", getWidth() * data->userUsage / 100);
-	mvwprintw(_window->window, 16, 1, "%f", getWidth() * data->idle / 100);
+	i += systempercent;
+
+	int idlepercent = getWidth() * data->idle / 100;
+	init_pair(3, COLOR_GREEN, COLOR_BLACK);
+	wattrset(_window->window, COLOR_PAIR(3));
+	for(int j = 0; j < idlepercent; j++) {
+		mvwprintw(_window->window, getHeight() - 2, i + j, "|");
+	}
+	wattroff(_window->window, COLOR_PAIR(3));
+
+
 	box(_window->window, 0, 0);
 	wrefresh(_window->window);
 
