@@ -3,7 +3,8 @@
 int		AMonitorDisplay::_nbrDisplay = 0;
 
 AMonitorDisplay::AMonitorDisplay(IMonitorModule * module) :
-	_module(module)
+	_module(module),
+	_window(NULL)
 {}
 
 AMonitorDisplay::AMonitorDisplay(AMonitorDisplay const & src)
@@ -20,3 +21,11 @@ AMonitorDisplay &	AMonitorDisplay::operator=(AMonitorDisplay const & rhs)
 
 	return *this;
 }
+
+void				AMonitorDisplay::setWindow(window_t * window)
+{
+	_window = window;
+}
+
+void		AMonitorDisplay::draw(void *) const
+{}

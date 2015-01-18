@@ -6,16 +6,18 @@
 #include "CPUDisplay.hpp"
 #include "CPUModule.hpp"
 
+#include <ncurses.h>
+
 void	CPUDisplay::draw(void * d) const
 {
+	if (_window == NULL)
+		return ;
+
 	CPUModule::data_t const *	data =
 	static_cast<CPUModule::data_t const *>(d);
 
-	// std::string Result;
+	box(_window->window, 0, 0);
+	wrefresh(_window->window);
 
-	// std::ostringstream convert;
-	// std::cout << (int*)_win << std::endl;
-	if (_win == NULL)
-		_win = newwin(10, 10, 0, 0);
-	(void)data;
+	(void) data;
 }

@@ -104,7 +104,7 @@ void	CPUModule::update(unsigned long time)
     _data.processCount = atoi(top.substr(11, 3).c_str());
     _setThreadCount(top);
     _setCPUUsage(top);
-    // std::cout << top << std::endl;
+
 	_display->draw(&_data);
 
 	static_cast<void>(time);

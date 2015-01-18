@@ -4,7 +4,7 @@
 
 # include <vector>
 # include <string>
-# include "IMonitorModule.hpp"
+# include "AMonitorModule.hpp"
 
 #include <ncurses.h>
 
@@ -22,7 +22,7 @@ protected:
 
 public:
 	static void								initNcurses(void);
-	static void								registerModule(IMonitorModule *);
+	static void								registerModule(AMonitorModule *);
 	static void								startMonitoring(void);
 	static void								update(void);
 	static void								start(void);

@@ -9,10 +9,10 @@ class AMonitorModule : public IMonitorModule
 {
 protected:
 	bool				_paused;
-	IMonitorDisplay *	_display;
+	AMonitorDisplay *	_display;
 
 public:
-	AMonitorModule(IMonitorDisplay * = NULL);
+	AMonitorModule(AMonitorDisplay * = NULL);
 	AMonitorModule(AMonitorModule const &);
 	virtual ~AMonitorModule(void);
 
@@ -20,6 +20,7 @@ public:
 
 	void				start(void);
 	void				pause(void);
+	AMonitorDisplay *	getDisplay(void) const;
 };
 
 #endif

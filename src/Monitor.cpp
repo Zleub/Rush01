@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "Monitor.hpp"
+#include "AMonitorDisplay.hpp"
 
 unsigned long	Monitor::_updateInterval = 1000000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
@@ -19,9 +20,20 @@ void			Monitor::initNcurses(void)
 	start_color();
 }
 
-void			Monitor::registerModule(IMonitorModule * module)
+void			Monitor::registerModule(AMonitorModule * module)
 {
+	if (module == NULL)
+		return ;
+
 	_modules.push_back(module);
+
+	window_t *	window = new window_t;
+
+	window->window = newwin(30, 10, 0, 0);
+	window->width = 30;
+	window->height = 10;
+
+	module->getDisplay()->setWindow(window);
 }
 
 void			Monitor::startMonitoring(void)

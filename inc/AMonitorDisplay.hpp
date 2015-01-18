@@ -7,19 +7,30 @@
 
 # include <ncurses.h>
 
+typedef struct {
+	WINDOW *		window;
+	unsigned int	width;
+	unsigned int	height;
+}					window_t;
+
+class IMonitorModule;
+
 class AMonitorDisplay
 {
 protected:
 	IMonitorModule *	_module;
-
 	static int			_nbrDisplay;
-	WINDOW *			_win;
+	window_t *			_window;
+
 public:
 	AMonitorDisplay(IMonitorModule * = NULL);
 	AMonitorDisplay(AMonitorDisplay const &);
 	virtual ~AMonitorDisplay(void);
 
 	AMonitorDisplay &	operator=(AMonitorDisplay const &);
+
+	virtual void		draw(void *) const;
+	void				setWindow(window_t *);
 };
 
 #endif

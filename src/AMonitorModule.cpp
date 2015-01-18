@@ -2,7 +2,7 @@
 #include "AMonitorModule.hpp"
 #include <iostream>
 
-AMonitorModule::AMonitorModule(IMonitorDisplay * display) :
+AMonitorModule::AMonitorModule(AMonitorDisplay * display) :
 	_paused(false),
 	_display(display)
 {}
@@ -34,4 +34,9 @@ void				AMonitorModule::start(void)
 void				AMonitorModule::pause(void)
 {
 	_paused = true;
+}
+
+AMonitorDisplay *	AMonitorModule::getDisplay(void) const
+{
+	return _display;
 }
