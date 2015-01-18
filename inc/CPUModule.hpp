@@ -12,19 +12,26 @@ class CPUModule : public AMonitorModule
 public:
 	typedef struct {
 		unsigned int		coreCount;
-		std::vector<float>	coreActivity;
-		std::vector<float>	coreSpeed;
+		double				frequency;
 		unsigned int		processCount;
 		unsigned int		threadCount;
+		double				userUsage;
+		double				systemUsage;
+		double				idle;
 	}						data_t;
 
 	CPUModule(void);
 
-	void		update(unsigned long);
-	void		reset(void);
-
-protected:
-	data_t		_data;
+	void					update(unsigned long);
+	void					reset(void);
+			
+protected:			
+	data_t					_data;
+	uint32_t				_prevTime;
+			
+	double					_getCPUFrequency(void);
+	void					_setThreadCount(std::string const &);
+	void					_setCPUUsage(std::string const &);
 };
 
 #endif

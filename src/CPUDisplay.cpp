@@ -15,5 +15,4 @@ void	CPUDisplay::draw(void * d) const
 
 	std::ostringstream convert;
 	convert << data->coreCount;
-
 }
