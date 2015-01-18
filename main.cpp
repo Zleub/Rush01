@@ -4,6 +4,7 @@
 #include "TimeModule.hpp"
 #include "UserInfoModule.hpp"
 #include "OSModule.hpp"
+#include "NetworkModule.hpp"
 #include "MemoryModule.hpp"
 
 int		main(void)
@@ -15,6 +16,7 @@ int		main(void)
 	Monitor::registerModule(new MemoryModule());
 	Monitor::registerModule(new UserInfoModule());
 	Monitor::registerModule(new TimeModule());
+	Monitor::registerModule(new NetworkModule());
 
 	Monitor::startMonitoring();
 

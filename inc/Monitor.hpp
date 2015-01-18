@@ -14,6 +14,7 @@ enum	module_e {
 	Memory,
 	OS,
 	Time,
+	Network,
 	UserInfo
 };
 

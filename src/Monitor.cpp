@@ -12,6 +12,7 @@
 #include "OSModule.hpp"
 #include "TimeModule.hpp"
 #include "UserInfoModule.hpp"
+#include "NetworkModule.hpp"
 
 unsigned long	Monitor::_updateInterval = 500000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
@@ -31,6 +32,8 @@ static module_e	getModuleType(AMonitorModule * module)
 		return Time;
 	else if ((ptr = dynamic_cast<UserInfoModule *>(module)) != NULL)
 		return UserInfo;
+	else if ((ptr = dynamic_cast<NetworkModule *>(module)) != NULL)
+		return Network;
 
 	return Unknown;
 }
@@ -80,6 +83,13 @@ static void		handleInputNcurses(void)
 			break ;
 		case 'g':
 			Monitor::unregisterModule(UserInfo);
+			break ;
+
+		case 'y':
+			Monitor::registerModule(new NetworkModule);
+			break ;
+		case 'h':
+			Monitor::unregisterModule(Network);
 			break ;
 	}
 	
