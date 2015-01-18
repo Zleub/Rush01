@@ -14,18 +14,26 @@ void	MemoryDisplay::drawMLX(void * d) const
 	MemoryModule::data_t const *	data =
 	static_cast<MemoryModule::data_t const *>(d);
 
+	int i = 10;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)"Memory" );
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)"-------------------------------------------" );
+	i += 24;
 	ss.str("");
 	ss.clear();
-	ss << static_cast<float>(data->total * 10);
-	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 32 , 0xff0000, (char*)ss.str().c_str() );
+	ss << "MemoryTotal: " << static_cast<float>(data->total * 10);
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)ss.str().c_str() );
 	ss.str("");
 	ss.clear();
-	ss << static_cast<float>(data->used * 10);
-	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 44 , 0xff0000, (char*)ss.str().c_str() );
+	ss << "MemoryUsed: " << static_cast<float>(data->used * 10);
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)ss.str().c_str() );
 	ss.str("");
 	ss.clear();
-	ss << static_cast<float>(data->free * 10);
-	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 56 , 0xff0000, (char*)ss.str().c_str() );
+	ss << "MemoryFree: " << static_cast<float>(data->free * 10);
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)ss.str().c_str() );
 }
 
 void	MemoryDisplay::draw(void * d) const

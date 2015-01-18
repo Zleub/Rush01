@@ -13,8 +13,14 @@ void	UserInfoDisplay::drawMLX(void * d) const
 	UserInfoModule::data_t const *	data =
 		static_cast<UserInfoModule::data_t const *>(d);
 
-	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 32 , 0xff0000, (char*)data->username.c_str() );
-	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 44 , 0xff0000, (char*)data->hostname.c_str() );
+	int i = 10;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)"UserInfo" );
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)"-------------------------------------------" );
+	i += 24;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)data->username.c_str() );
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)data->hostname.c_str() );
 }
 
 
