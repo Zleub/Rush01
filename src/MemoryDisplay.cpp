@@ -1,16 +1,58 @@
 
-#include <iostream>
+#include <fstream>
 #include "Monitor.hpp"
 #include "MemoryDisplay.hpp"
 #include "MemoryModule.hpp"
 
+#define MEM_GRAPH_HEIGHT 8
+
 void	MemoryDisplay::draw(void * d) const
 {
+	if (_window->window == NULL)
+		return ;
+
 	MemoryModule::data_t const *	data =
 		static_cast<MemoryModule::data_t const *>(d);
 
-	(void) data;
+	mvwprintw(_window->window, 1, 20, "Memory");
+	mvwprintw(_window->window, 2, 1, "--------------------------------------------");
+
+	mvwprintw(_window->window, 3, 2, "Total memory: %lu Mhz", data->total / 1000000);
+	mvwprintw(_window->window, 4, 2, "Used memory: %lu Mhz", data->used / 1000000);
+	mvwprintw(_window->window, 5, 2, "Free memory: %lu Mhz", data->free / 1000000);
+
+	{
+		unsigned int	value = 42 * data->used / data->total;
+
+		for (unsigned int i = 0; i < value; i++)
+			mvwprintw(_window->window, 7, 2 + i, "#");
+	}
+
+	mvwprintw(_window->window, 8, 2, "------------------------------------------");
+
+	{
+		unsigned int	width = static_cast<unsigned int>(getWidth()) - 4;
+		std::ofstream o("ok", std::ofstream::app);
+
+		for (unsigned int x = width - 1; x != 0; x--)
+		{
+			if (x >= data->history.size())
+				continue;
+
+			// o << data->history[x] << " ";
+
+			unsigned int	value = MEM_GRAPH_HEIGHT * data->history[x] / data->total;
+
+			for (unsigned int i = 0; i < value; i++)
+				mvwprintw(_window->window, 9 + MEM_GRAPH_HEIGHT - i, 1 + x, "#");
+		}
+
+		// o << std::endl;
+	}
+
+	box(_window->window, 0, 0);
+	wrefresh(_window->window);
 }
 
-int        MemoryDisplay::getWidth(void) const { return 10; }
-int        MemoryDisplay::getHeight(void) const { return 5; }
+int        MemoryDisplay::getWidth(void) const { return 46; }
+int        MemoryDisplay::getHeight(void) const { return 18; }

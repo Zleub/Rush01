@@ -8,7 +8,7 @@
 
 #include <ncurses.h>
 
-#define BAR_WIDTH 27
+#define CPU_BAR_WIDTH 27
 
 void	CPUDisplay::draw(void * d) const
 {
@@ -31,7 +31,7 @@ void	CPUDisplay::draw(void * d) const
 		mvwprintw(_window->window, 11, 2, "User");
 		mvwprintw(_window->window, 11, 37, "%5.2f%%", data->userUsage);
 
-		unsigned int	value = BAR_WIDTH * data->userUsage / 100;
+		unsigned int	value = CPU_BAR_WIDTH * data->userUsage / 100;
 
 		for (unsigned int i = 0; i < value; i++)
 			mvwprintw(_window->window, 11, 9 + i, "|");
@@ -41,7 +41,7 @@ void	CPUDisplay::draw(void * d) const
 		mvwprintw(_window->window, 12, 2, "System");
 		mvwprintw(_window->window, 12, 37, "%5.2f%%", data->systemUsage);
 
-		unsigned int	value = BAR_WIDTH * data->systemUsage / 100;
+		unsigned int	value = CPU_BAR_WIDTH * data->systemUsage / 100;
 
 		for (unsigned int i = 0; i < value; i++)
 			mvwprintw(_window->window, 12, 9 + i, "|");
@@ -51,7 +51,7 @@ void	CPUDisplay::draw(void * d) const
 		mvwprintw(_window->window, 13, 2, "Idle");
 		mvwprintw(_window->window, 13, 37, "%5.2f%%", data->idle);
 
-		unsigned int	value = BAR_WIDTH * data->idle / 100;
+		unsigned int	value = CPU_BAR_WIDTH * data->idle / 100;
 
 		for (unsigned int i = 0; i < value; i++)
 			mvwprintw(_window->window, 13, 9 + i, "|");

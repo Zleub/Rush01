@@ -25,6 +25,17 @@ MemoryModule::MemoryModule(void) :
 	_count = sizeof(_vmStats) / sizeof(natural_t);
 }
 
+void	MemoryModule::_buildHistory(void)
+{
+	if (_data.history.size() > static_cast<uint64_t>(_display->getWidth() - 4))
+	{
+		_data.history.erase(_data.history.end());
+		_data.history.insert(_data.history.begin(), _data.used);
+	}
+	else
+		_data.history.push_back(_data.used);
+}
+
 void	MemoryModule::update(unsigned long time)
 {
 	if (KERN_SUCCESS == host_page_size(_machPort, &_pageSize) &&
@@ -35,6 +46,10 @@ void	MemoryModule::update(unsigned long time)
 		_data.free = static_cast<int64_t>(_vmStats.free_count) * static_cast<int64_t>(_pageSize);
 		_data.used = _data.total - _data.free;
 	}
+
+	_buildHistory();
+
+	_display->draw(&_data);
 
 	static_cast<void>(time);
 }
