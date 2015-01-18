@@ -264,8 +264,63 @@ int				Monitor::drawMLX(void) {
 	return 0;
 }
 
+static int		handleInputMLX(int keycode, void*)
+{
+	switch (keycode) {
+		case 65307: // Escape
+			endwin();
+			exit(0);
+
+		case 'q':
+			Monitor::registerModule(new CPUModule);
+			break ;
+		case 'a':
+			Monitor::unregisterModule(CPU);
+			break ;
+
+		case 'w':
+			Monitor::registerModule(new MemoryModule);
+			break ;
+		case 's':
+			Monitor::unregisterModule(Memory);
+			break ;
+
+		case 'e':
+			Monitor::registerModule(new OSModule);
+			break ;
+		case 'd':
+			Monitor::unregisterModule(OS);
+			break ;
+
+		case 'r':
+			Monitor::registerModule(new TimeModule);
+			break ;
+		case 'f':
+			Monitor::unregisterModule(Time);
+			break ;
+
+		case 't':
+			Monitor::registerModule(new UserInfoModule);
+			break ;
+		case 'g':
+			Monitor::unregisterModule(UserInfo);
+			break ;
+
+		case 'y':
+			Monitor::registerModule(new NetworkModule);
+			break ;
+		case 'h':
+			Monitor::unregisterModule(Network);
+			break ;
+	}
+
+	return 0;
+}
+
 void			Monitor::updateMLX(void) {
 	mlx_loop_hook(_mlx, drawMLX, NULL);
+	mlx_expose_hook (_win, drawMLX, NULL);
+	mlx_key_hook (_win, handleInputMLX, NULL);
 	mlx_loop(_mlx);
 }
 

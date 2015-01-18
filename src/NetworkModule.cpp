@@ -9,7 +9,7 @@ NetworkModule::NetworkModule(void) :
 	AMonitorModule(new NetworkDisplay)
 {}
 
-void	NetworkModule::update(unsigned long time, std::string)
+void	NetworkModule::update(unsigned long time, std::string drawtype)
 {
     size_t  occ;
 
@@ -64,7 +64,10 @@ void	NetworkModule::update(unsigned long time, std::string)
     catch (std::exception)
     {}
 
-	_display->draw(&_data);
+    if (drawtype == "console")
+        _display->draw(&_data);
+    else if (drawtype == "graphic")
+        _display->drawMLX(&_data);
 
 	static_cast<void>(time);
 }
