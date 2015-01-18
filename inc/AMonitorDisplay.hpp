@@ -5,7 +5,7 @@
 # include "IMonitorDisplay.hpp"
 # include "IMonitormodule.hpp"
 
-class AMonitorDisplay : public IMonitorDisplay
+class AMonitorDisplay
 {
 protected:
 	IMonitorModule *	_module;

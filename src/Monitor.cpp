@@ -41,6 +41,20 @@ void			Monitor::startMonitoring(void)
 	update();
 }
 
+void			Monitor::handleInput(void) {
+	SDL_Event	event;
+	if (SDL_PollEvent(&event)) {
+		switch (event.type) {
+			case SDL_MOUSEMOTION:
+				std::cout << "mouse motion"  << std::endl;
+				break ;
+			case SDL_QUIT:
+				exit(0);
+		}
+		// std::cout << event.type << std::endl;
+	}
+}
+
 void			Monitor::update(void)
 {
 	moduleIterator_t	it = _modules.begin();
@@ -59,8 +73,7 @@ void			Monitor::update(void)
 	gettimeofday(&time, NULL);
 	_lastUpdate = getTime();
 
-	// if (SDL_PollEvent( &e ) != 0 )
-		// SDL_UpdateWindowSurface( _window );
+	handleInput();
 	update();
 }
 

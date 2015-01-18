@@ -4,7 +4,7 @@
 
 # include "AMonitorDisplay.hpp"
 
-class UserInfoDisplay : public AMonitorDisplay
+class UserInfoDisplay : public IMonitorDisplay, public AMonitorDisplay
 {
 public:
 	void		draw(void *) const;

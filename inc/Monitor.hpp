@@ -32,6 +32,8 @@ public:
 	static void								log(std::string, bool = true);
 	static unsigned long					getTime(void);
 
+	static void								handleInput(void);
+
 	static void								setUpdateInterval(double);
 	static double							getUpdateInterval(void);
 	static std::vector<IMonitorModule*> &	getModules(void);
