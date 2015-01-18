@@ -12,3 +12,6 @@ void	TimeDisplay::draw(void * d) const
 	std::cout << data->date << std::endl;
 	std::cout << data->time << std::endl;
 }
+
+int        TimeDisplay::getWidth(void) const { return 10; }
+int        TimeDisplay::getHeight(void) const { return 5; }

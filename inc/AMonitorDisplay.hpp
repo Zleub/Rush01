@@ -9,8 +9,8 @@
 
 typedef struct {
 	WINDOW *		window;
-	unsigned int	width;
-	unsigned int	height;
+	int	x;
+	int	y;
 }					window_t;
 
 class IMonitorModule;
@@ -27,10 +27,13 @@ public:
 	AMonitorDisplay(AMonitorDisplay const &);
 	virtual ~AMonitorDisplay(void);
 
-	AMonitorDisplay &	operator=(AMonitorDisplay const &);
+	AMonitorDisplay &		operator=(AMonitorDisplay const &);
 
-	virtual void		draw(void *) const;
-	void				setWindow(window_t *);
+	virtual void			draw(void *) const;
+	void					setWindow(window_t *);
+	window_t *				getWindow(void) const;
+	virtual int	getWidth(void) const;
+	virtual int	getHeight(void) const;
 };
 
 #endif

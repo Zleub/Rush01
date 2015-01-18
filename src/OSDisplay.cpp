@@ -11,3 +11,6 @@ void	OSDisplay::draw(void * d) const
 
 		(void) data;
 }
+
+int        OSDisplay::getWidth(void) const { return 10; }
+int        OSDisplay::getHeight(void) const { return 5; }

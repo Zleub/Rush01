@@ -7,7 +7,7 @@
 
 unsigned long	Monitor::_updateInterval = 1000000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
-std::vector<IMonitorModule*>	Monitor::_modules;
+std::vector<AMonitorModule*>	Monitor::_modules;
 
 void			Monitor::initNcurses(void)
 {
@@ -25,19 +25,54 @@ void			Monitor::registerModule(AMonitorModule * module)
 
 	_modules.push_back(module);
 
-	window_t *	window = new window_t;
+	module->getDisplay()->setWindow(new window_t);
 
-	window->window = newwin(30, 10, 0, 0);
-	window->width = 30;
-	window->height = 10;
-
-	module->getDisplay()->setWindow(window);
+	createWindows();
 }
 
 void			Monitor::startMonitoring(void)
 {
 	_lastUpdate = getTime();
 	update();
+}
+
+void			Monitor::createWindows(void)
+{
+	moduleIterator_t	it = _modules.begin();
+	AMonitorDisplay *	display;
+	window_t *			window;
+	int					x = 0;
+	int					y = 0;
+	int					maxY = 0;
+
+	for (; it < _modules.end(); it++)
+	{
+		display = (*it)->getDisplay();
+
+		if (static_cast<int>(x + display->getWidth()) > COLS)
+		{
+			x = 0;
+			y += maxY;
+			maxY = 0;
+		}
+		
+		window = display->getWindow();
+		window->x = x;
+		window->y = y;
+		maxY = std::max(maxY, display->getHeight());
+
+		if (window->window == NULL)
+		{
+			window->window = newwin(
+				display->getWidth(),
+				display->getHeight(),
+				window->x,
+				window->y
+			);
+		}
+		else
+			mvwin(window->window, window->x, window->y);
+	}
 }
 
 void			Monitor::update(void)
@@ -122,7 +157,7 @@ double		Monitor::getUpdateInterval(void)
 	return _updateInterval;
 }
 
-std::vector<IMonitorModule*> &	Monitor::getModules(void)
+std::vector<AMonitorModule*> &	Monitor::getModules(void)
 {
 	return _modules;
 }

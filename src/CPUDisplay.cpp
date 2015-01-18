@@ -21,3 +21,6 @@ void	CPUDisplay::draw(void * d) const
 
 	(void) data;
 }
+
+int        CPUDisplay::getWidth(void) const { return 10; }
+int        CPUDisplay::getHeight(void) const { return 5; }

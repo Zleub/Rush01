@@ -11,3 +11,6 @@ void	MemoryDisplay::draw(void * d) const
 
 	(void) data;
 }
+
+int        MemoryDisplay::getWidth(void) const { return 10; }
+int        MemoryDisplay::getHeight(void) const { return 5; }

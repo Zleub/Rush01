@@ -27,5 +27,13 @@ void				AMonitorDisplay::setWindow(window_t * window)
 	_window = window;
 }
 
+window_t *			AMonitorDisplay::getWindow(void) const
+{
+	return _window;
+}
+
 void		AMonitorDisplay::draw(void *) const
 {}
+
+int        AMonitorDisplay::getWidth(void) const { return 10; }
+int        AMonitorDisplay::getHeight(void) const { return 5; }

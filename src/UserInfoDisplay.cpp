@@ -12,3 +12,6 @@ void	UserInfoDisplay::draw(void * d) const
 	std::cout << data->hostname << std::endl;
 	std::cout << data->username << std::endl;
 }
+
+int        UserInfoDisplay::getWidth(void) const { return 10; }
+int        UserInfoDisplay::getHeight(void) const { return 5; }

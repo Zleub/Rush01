@@ -68,7 +68,7 @@ void	CPUModule::update(unsigned long time)
             NULL
         };
 
-        _data.name = std::string(Util::execute("/usr/sbin/sysctl", args, 1024));
+        _data.name = std::string(Util::execute("/usr/sbin/sysctl", args, 100));
     }
 
     char *  args[6] = {

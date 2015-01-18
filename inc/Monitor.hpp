@@ -10,9 +10,9 @@
 
 struct Monitor {
 protected:
-	typedef std::vector<IMonitorModule*>::iterator	moduleIterator_t;
+	typedef std::vector<AMonitorModule*>::iterator	moduleIterator_t;
 
-	static std::vector<IMonitorModule*>		_modules;
+	static std::vector<AMonitorModule*>		_modules;
 	static unsigned long					_updateInterval;
 	static unsigned long					_lastUpdate;
 
@@ -26,12 +26,13 @@ public:
 	static void								reset(void);
 	static void								log(std::string, bool = true);
 	static unsigned long					getTime(void);
+	static void								createWindows(void);
 
 	static void								handleInput(void);
 
 	static void								setUpdateInterval(double);
 	static double							getUpdateInterval(void);
-	static std::vector<IMonitorModule*> &	getModules(void);
+	static std::vector<AMonitorModule*> &	getModules(void);
 };
 
 #endif
