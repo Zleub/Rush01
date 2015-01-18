@@ -4,12 +4,11 @@
 #include <cmath>
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
+#include <cstdlib>
 #include "Monitor.hpp"
 #include "CPUModule.hpp"
 #include "CPUDisplay.hpp"
-#include <sys/types.h>
-#include <signal.h>
-#include <cstdlib>
+#include "Util.hpp"
 
 CPUModule::CPUModule(void) :
 	AMonitorModule(new CPUDisplay)
@@ -39,43 +38,6 @@ double     CPUModule::_getCPUFrequency(void)
     return roundf(static_cast<float>(freq) / 10000000) / 100;
 }
 
-std::string executeTop(void)
-{
-    int     pipefd[2];
-    int     pid;
-
-    pipe(pipefd);
-    pid = fork();
-
-    if (pid == 0)
-    {
-        close(pipefd[0]);
-
-        dup2(pipefd[1], 1);
-        dup2(pipefd[1], 2);
-
-        close(pipefd[1]);
-
-        execl("/usr/bin/top", "top", "-c", "n", "-l", "0", NULL);
-        exit(0);
-    }
-    else
-    {
-        char buffer[1024] = { 0 };
-
-        close(pipefd[1]);
-
-        while (read(pipefd[0], buffer, 1023) != 0)
-        {
-            kill(pid, SIGINT);
-
-            return std::string(buffer);
-        }
-    }
-
-    return std::string();
-}
-
 void    CPUModule::_setThreadCount(std::string const & top)
 {
     size_t  occ = top.find(" threads");
@@ -99,7 +61,16 @@ void	CPUModule::update(unsigned long time)
     _data.coreCount = sysconf(_SC_NPROCESSORS_ONLN);
     _data.frequency = _getCPUFrequency();
 
-    std::string top = executeTop();
+    char *  args[6] = {
+        (char *) "top",
+        (char *) "-c",
+        (char *) "n",
+        (char *) "-l",
+        (char *) "0",
+        NULL
+    };
+
+    std::string top = Util::execute("/usr/bin/top", args, 1024);
 
     _data.processCount = atoi(top.substr(11, 3).c_str());
     _setThreadCount(top);

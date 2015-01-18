@@ -7,10 +7,9 @@
 #include <mach/mach_init.h>
 #include <mach/vm_statistics.h>
 #include <sys/sysctl.h>
-#include <iostream>
 
 MemoryModule::MemoryModule(void) :
-AMonitorModule(new MemoryDisplay)
+	AMonitorModule(new MemoryDisplay)
 {
 	int		mib[2];
 	size_t	len;
@@ -21,7 +20,7 @@ AMonitorModule(new MemoryDisplay)
 	len = sizeof(int64_t);
 	sysctl(mib, 2, &tmp, &len, NULL, 0);
 
-	_data.total = static_cast<int>(tmp / 1024);
+	_data.total = tmp;
 	_machPort = mach_host_self();
 	_count = sizeof(_vmStats) / sizeof(natural_t);
 }
@@ -36,14 +35,6 @@ void	MemoryModule::update(unsigned long time)
 		_data.free = static_cast<int64_t>(_vmStats.free_count) * static_cast<int64_t>(_pageSize);
 		_data.used = _data.total - _data.free;
 	}
-
-	std::cout
-		<< _data.total << std::endl
-		<< _data.free << std::endl
-		<< _data.used << std::endl
-		<< std::endl;
-
-	_display->draw(&_data);
 
 	static_cast<void>(time);
 }

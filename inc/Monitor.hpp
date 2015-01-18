@@ -10,15 +10,11 @@
 
 struct Monitor {
 protected:
-	// GLOBAL MODULE
 	typedef std::vector<IMonitorModule*>::iterator	moduleIterator_t;
 
 	static std::vector<IMonitorModule*>		_modules;
 	static unsigned long					_updateInterval;
 	static unsigned long					_lastUpdate;
-
-	// GRAPHICS MODULE
-	static void *							_mlx;
 
 public:
 	static void								initNcurses(void);

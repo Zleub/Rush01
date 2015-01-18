@@ -9,8 +9,6 @@ unsigned long	Monitor::_updateInterval = 1000000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
 std::vector<IMonitorModule*>	Monitor::_modules;
 
-void *			Monitor::_mlx = NULL;
-
 void			Monitor::initNcurses(void)
 {
 	initscr();
