@@ -7,6 +7,7 @@
 #include "CPUModule.hpp"
 #include "CPUDisplay.hpp"
 #include "Util.hpp"
+#include <iostream>
 
 CPUModule::CPUModule(void) :
 	AMonitorModule(new CPUDisplay)
@@ -58,6 +59,17 @@ void	CPUModule::update(unsigned long time)
 {
     _data.coreCount = sysconf(_SC_NPROCESSORS_ONLN);
     _data.frequency = _getCPUFrequency();
+
+    {
+        char *  args[4] = {
+            (char *) "sysctl",
+            (char *) "-n",
+            (char *) "machdep.cpu.brand_string",
+            NULL
+        };
+
+        _data.name = std::string(Util::execute("/usr/sbin/sysctl", args, 1024));
+    }
 
     char *  args[6] = {
         (char *) "top",

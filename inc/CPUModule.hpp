@@ -11,6 +11,7 @@ class CPUModule : public AMonitorModule
 {
 public:
 	typedef struct {
+		std::string			name;
 		unsigned int		coreCount;
 		double				frequency;
 		unsigned int		processCount;

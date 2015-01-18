@@ -1,11 +1,10 @@
 #include <iostream>
 #include "Monitor.hpp"
-#include "OSModule.hpp"
-#include <IOKit/IOKitLib.h>
+#include "CPUModule.hpp"
 
 int		main(void)
 {
-	Monitor::registerModule(new OSModule());
+	Monitor::registerModule(new CPUModule());
 
 	Monitor::initNcurses();
 	Monitor::startMonitoring();
