@@ -6,7 +6,7 @@
 #include "Monitor.hpp"
 #include "AMonitorDisplay.hpp"
 
-unsigned long	Monitor::_updateInterval = 500000;
+unsigned long	Monitor::_updateInterval = 200000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
 std::vector<AMonitorModule*>	Monitor::_modules;
 

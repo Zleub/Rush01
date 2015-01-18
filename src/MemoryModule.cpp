@@ -6,6 +6,7 @@
 #include "MemoryDisplay.hpp"
 #include <mach/mach_init.h>
 #include <mach/vm_statistics.h>
+#include <fstream>
 #include <sys/sysctl.h>
 
 MemoryModule::MemoryModule(void) :
@@ -28,12 +29,9 @@ MemoryModule::MemoryModule(void) :
 void	MemoryModule::_buildHistory(void)
 {
 	if (_data.history.size() > static_cast<uint64_t>(_display->getWidth() - 4))
-	{
-		_data.history.erase(_data.history.end());
-		_data.history.insert(_data.history.begin(), _data.used);
-	}
-	else
-		_data.history.push_back(_data.used);
+		_data.history.pop_back();
+
+	_data.history.insert(_data.history.begin(), _data.used);
 }
 
 void	MemoryModule::update(unsigned long time)

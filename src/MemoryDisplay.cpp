@@ -24,30 +24,35 @@ void	MemoryDisplay::draw(void * d) const
 	{
 		unsigned int	value = 42 * data->used / data->total;
 
-		for (unsigned int i = 0; i < value; i++)
-			mvwprintw(_window->window, 7, 2 + i, "#");
+		for (unsigned int i = 0; i < 42; i++)
+		{
+			if (i < value)
+				mvwprintw(_window->window, 7, 2 + i, "#");
+			else
+				mvwprintw(_window->window, 7, 2 + i, " ");
+		}
 	}
 
 	mvwprintw(_window->window, 8, 2, "------------------------------------------");
 
 	{
 		unsigned int	width = static_cast<unsigned int>(getWidth()) - 4;
-		std::ofstream o("ok", std::ofstream::app);
 
-		for (unsigned int x = width - 1; x != 0; x--)
+		for (unsigned int x = 0; x < width; x++)
 		{
 			if (x >= data->history.size())
 				continue;
 
-			// o << data->history[x] << " ";
-
 			unsigned int	value = MEM_GRAPH_HEIGHT * data->history[x] / data->total;
 
-			for (unsigned int i = 0; i < value; i++)
-				mvwprintw(_window->window, 9 + MEM_GRAPH_HEIGHT - i, 1 + x, "#");
+			for (unsigned int i = 0; i < MEM_GRAPH_HEIGHT; i++)
+			{
+				if (i < value)
+					mvwprintw(_window->window, 9 + MEM_GRAPH_HEIGHT - i, 1 + width - x, "#");
+				else
+					mvwprintw(_window->window, 9 + MEM_GRAPH_HEIGHT - i, 1 + width - x, " ");
+			}
 		}
-
-		// o << std::endl;
 	}
 
 	box(_window->window, 0, 0);
