@@ -2,11 +2,11 @@
 #ifndef MONITOR_HPP
 # define MONITOR_HPP
 
-# include <SDL2/SDL.h>
-
 # include <vector>
 # include <string>
 # include "IMonitorModule.hpp"
+
+# include "../inc/mlx.h"
 
 struct Monitor {
 protected:
@@ -17,12 +17,11 @@ protected:
 	static unsigned long					_updateInterval;
 	static unsigned long					_lastUpdate;
 
-	// GLOBAL DISPLAY
-	static SDL_Window *						_window;
-	static SDL_Surface *					_screenSurface;
+	// GRAPHICS MODULE
+	static void *							_mlx;
 
 public:
-	static void								initSDL(void);
+	static void								initMLX(void);
 	static void								registerModule(IMonitorModule *);
 	static void								startMonitoring(void);
 	static void								update(void);

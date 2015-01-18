@@ -6,7 +6,7 @@
 #    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 10:50:05 by adebray           #+#    #+#              #
-#    Updated: 2015/01/17 08:23:46 by adebray          ###   ########.fr        #
+#    Updated: 2015/01/18 05:53:46 by adebray          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,34 +17,30 @@ SRC			=	$(shell ls -1 ./src/*.cpp)
 OBJ			=	$(SRC:.cpp=.o)
 
 CC			=	g++
+MLXFLAG		=	-Lsrc/minilibx -lmlx -L/usr/X11/lib -lXext -lX11
 EXTRA		=	-Woverloaded-virtual
-SDLFLAG		=	-I/nfs/zfs-student-5/users/2013/adebray/.brew/include -L/nfs/zfs-student-5/users/2013/adebray/.brew/lib \
-				-I/nfs/zfs-student-5/users/2013/amaurer/.brew/include -L/nfs/zfs-student-5/users/2013/amaurer/.brew/lib -lSDL2
-CCFLAGS		=	$(SDLFLAG) $(EXTRA) -Werror -Wall -Wextra -Iinc
+CCFLAGS		=	-Iinc $(MLXFLAG) $(EXTRA) -Werror -Wall -Wextra
 
-all: $(NAME)
-
-arnaud: $(OBJ)
-			@$(CC) $(SDLFLAG) $(CCFLAGS) -o $(NAME) $(OBJ) main_arnaud.cpp
-			@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
-
-arthur: $(OBJ)
-			@$(CC) -o $(NAME) $(CCFLAGS) $(OBJ) main_arthur.cpp
-			@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
+all: _minilibx $(NAME)
 
 $(NAME): $(OBJ)
 			@$(CC) -o $(NAME) $(CCFLAGS) $(OBJ) main.cpp
 			@echo "\033[32m•\033[0m $(NAME) compil: \033[32m$(NAME)\033[0m"
+
+_minilibx:
+			@make -C src/minilibx 2> /dev/null
 
 %.o: %.cpp
 			@echo '.''\c'
 			@$(CC) $(CCFLAGS) -o $@ -c $<
 
 clean:
+			@make -C src/minilibx clean
 			@rm -f $(OBJ)
 			@echo "\033[31m•\033[0m $(NAME) clean.\033[0m"
 
 fclean:		clean
+			@make -C src/minilibx fclean
 			@rm -f $(NAME)
 			@echo "\033[31m•\033[0m $(NAME) fclean: \033[31m$(NAME)\033[0m"
 
