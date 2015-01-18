@@ -3,6 +3,8 @@
 #include "CPUModule.hpp"
 #include "TimeModule.hpp"
 #include "UserInfoModule.hpp"
+#include "OSModule.hpp"
+#include "MemoryModule.hpp"
 
 int		main(int argc, char ** argv)
 {
@@ -20,11 +22,14 @@ int		main(int argc, char ** argv)
 		return (-1);
 	}
 
+	Monitor::registerModule(new UserInfoModule());
 	Monitor::registerModule(new CPUModule());
-	Monitor::registerModule(new CPUModule());
+	Monitor::registerModule(new OSModule());
+	Monitor::registerModule(new MemoryModule());
+	Monitor::registerModule(new UserInfoModule());
 	Monitor::registerModule(new TimeModule());
 	Monitor::registerModule(new CPUModule());
-	Monitor::registerModule(new UserInfoModule());
+
 	Monitor::startMonitoring();
 
 	return 0;

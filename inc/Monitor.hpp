@@ -8,6 +8,15 @@
 
 #include <ncurses.h>
 
+enum	module_e {
+	Unknown,
+	CPU,
+	Memory,
+	OS,
+	Time,
+	UserInfo
+};
+
 struct Monitor {
 protected:
 	typedef std::vector<AMonitorModule*>::iterator	moduleIterator_t;
@@ -25,6 +34,7 @@ public:
 	static void								initNcurses(void);
 	static void								initMLX(void);
 	static void								registerModule(AMonitorModule *);
+	static void								unregisterModule(module_e);
 	static void								startMonitoring(void);
 	static void								update(void);
 	static void								updateMLX(void);

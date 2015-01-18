@@ -6,6 +6,7 @@
 #include "MemoryDisplay.hpp"
 #include <mach/mach_init.h>
 #include <mach/vm_statistics.h>
+#include <fstream>
 #include <sys/sysctl.h>
 
 MemoryModule::MemoryModule(void) :
@@ -25,7 +26,15 @@ MemoryModule::MemoryModule(void) :
 	_count = sizeof(_vmStats) / sizeof(natural_t);
 }
 
-void	MemoryModule::update(unsigned long time, std::string)
+void	MemoryModule::_buildHistory(void)
+{
+	if (_data.history.size() > static_cast<uint64_t>(_display->getWidth() - 4))
+		_data.history.pop_back();
+
+	_data.history.insert(_data.history.begin(), _data.used);
+}
+
+void	MemoryModule::update(unsigned long time, std::string drawtype)
 {
 	if (KERN_SUCCESS == host_page_size(_machPort, &_pageSize) &&
 		KERN_SUCCESS == host_statistics64(_machPort, HOST_VM_INFO,
@@ -35,6 +44,13 @@ void	MemoryModule::update(unsigned long time, std::string)
 		_data.free = static_cast<int64_t>(_vmStats.free_count) * static_cast<int64_t>(_pageSize);
 		_data.used = _data.total - _data.free;
 	}
+
+	_buildHistory();
+
+    if (drawtype == "console")
+    	_display->draw(&_data);
+    else if (drawtype == "graphic")
+        _display->drawMLX(&_data);
 
 	static_cast<void>(time);
 }

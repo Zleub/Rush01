@@ -3,6 +3,7 @@
 # define MEMORY_MODULE_HPP
 
 # include <string>
+# include <vector>
 # include <mach/mach_host.h>
 # include "AMonitorModule.hpp"
 
@@ -10,13 +11,15 @@ class MemoryModule : public AMonitorModule
 {
 public:
 	typedef struct {
-		int64_t			total;
-		int64_t			used;
-		int64_t			free;
-	}					data_t;
+		int64_t					total;
+		int64_t					used;
+		int64_t					free;
+		std::vector<int64_t>	history;
+	}							data_t;
 
 	MemoryModule(void);
 
+	void		_buildHistory(void);
 	void		update(unsigned long, std::string);
 	void		reset(void);
 
