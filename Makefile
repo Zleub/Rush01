@@ -18,7 +18,8 @@ OBJ			=	$(SRC:.cpp=.o)
 
 CC			=	g++
 EXTRA		=	-Woverloaded-virtual
-SDLFLAG		=	-I/nfs/zfs-student-5/users/2013/adebray/.brew/include -L/nfs/zfs-student-5/users/2013/adebray/.brew/lib -lSDL2
+SDLFLAG		=	-I/nfs/zfs-student-5/users/2013/adebray/.brew/include -L/nfs/zfs-student-5/users/2013/adebray/.brew/lib \
+				-I/nfs/zfs-student-5/users/2013/amaurer/.brew/include -L/nfs/zfs-student-5/users/2013/amaurer/.brew/lib -lSDL2
 CCFLAGS		=	$(SDLFLAG) $(EXTRA) -Werror -Wall -Wextra -Iinc
 
 all: $(NAME)

@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "Monitor.hpp"
 
-unsigned long	Monitor::_updateInterval = 1000000;
+unsigned long	Monitor::_updateInterval = 500000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
 std::vector<IMonitorModule*>	Monitor::_modules;
 
@@ -43,6 +43,7 @@ void			Monitor::startMonitoring(void)
 
 void			Monitor::handleInput(void) {
 	SDL_Event	event;
+	
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
 			case SDL_MOUSEMOTION:
@@ -57,24 +58,25 @@ void			Monitor::handleInput(void) {
 
 void			Monitor::update(void)
 {
-	moduleIterator_t	it = _modules.begin();
-	struct timeval		time;
+	moduleIterator_t	it;
+	unsigned long 		time;
 
-	log("", false);
-	log("Updating modules");
+	while (true)
+	{
+		time = getTime();
 
-	for (; it != _modules.end(); it++)
-		(*it)->update(_lastUpdate);
+		if (time - _lastUpdate > _updateInterval)
+		{
+			it = _modules.begin();
+			_lastUpdate = getTime();
+			log("Updating modules");
 
-	gettimeofday(&time, NULL);
+			for (; it != _modules.end(); it++)
+				(*it)->update(_lastUpdate);
+		}
 
-	usleep(_updateInterval - (getTime() - _lastUpdate));
-
-	gettimeofday(&time, NULL);
-	_lastUpdate = getTime();
-
-	handleInput();
-	update();
+		handleInput();
+	}
 }
 
 void			Monitor::reset(void)
