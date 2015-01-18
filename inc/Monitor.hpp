@@ -6,7 +6,7 @@
 # include <string>
 # include "IMonitorModule.hpp"
 
-# include "../inc/mlx.h"
+#include <ncurses.h>
 
 struct Monitor {
 protected:

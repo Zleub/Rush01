@@ -12,8 +12,11 @@ void *			Monitor::_mlx = NULL;
 
 void			Monitor::initMLX(void)
 {
-	std::cout << "initmlx" << std::endl;
-	_mlx = mlx_init();
+	initscr();
+	cbreak();
+	noecho();
+	keypad(stdscr, TRUE);
+	start_color();
 }
 
 void			Monitor::registerModule(IMonitorModule * module)
