@@ -27,5 +27,10 @@ void				AMonitorDisplay::setWindow(window_t * window)
 	_window = window;
 }
 
+window_t *			AMonitorDisplay::getWindow(void)
+{
+	return _window;
+}
+
 void		AMonitorDisplay::draw(void *) const
 {}

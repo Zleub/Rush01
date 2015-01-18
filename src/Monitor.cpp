@@ -18,6 +18,8 @@ void			Monitor::initNcurses(void)
 	start_color();
 }
 
+#include <cstdlib>
+
 void			Monitor::registerModule(AMonitorModule * module)
 {
 	if (module == NULL)
@@ -27,7 +29,7 @@ void			Monitor::registerModule(AMonitorModule * module)
 
 	window_t *	window = new window_t;
 
-	window->window = newwin(30, 10, 0, 0);
+	window->window = newwin(LINES / 2, COLS / 2, 0, 0);
 	window->width = 30;
 	window->height = 10;
 
@@ -53,7 +55,7 @@ void			Monitor::update(void)
 		{
 			it = _modules.begin();
 			_lastUpdate = getTime();
-			log("Updating modules");
+			// log("Updating modules");
 
 			for (; it != _modules.end(); it++)
 				(*it)->update(_lastUpdate);

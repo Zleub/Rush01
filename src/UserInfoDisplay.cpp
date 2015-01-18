@@ -6,9 +6,13 @@
 
 void	UserInfoDisplay::draw(void * d) const
 {
+	if (_window == NULL)
+		return ;
+
 	UserInfoModule::data_t const *	data =
 		static_cast<UserInfoModule::data_t const *>(d);
 
-	std::cout << data->hostname << std::endl;
-	std::cout << data->username << std::endl;
+	mvwprintw(_window->window, 1, 1, "%s@%s", data->username.c_str(), data->hostname.c_str());
+	box(_window->window, 0, 0);
+	wrefresh(_window->window);
 }

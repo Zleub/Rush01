@@ -31,6 +31,7 @@ public:
 
 	virtual void		draw(void *) const;
 	void				setWindow(window_t *);
+	window_t *			getWindow(void);
 };
 
 #endif
