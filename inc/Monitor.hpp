@@ -21,7 +21,7 @@ protected:
 	static void *							_mlx;
 
 public:
-	static void								initMLX(void);
+	static void								initNcurses(void);
 	static void								registerModule(IMonitorModule *);
 	static void								startMonitoring(void);
 	static void								update(void);

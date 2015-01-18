@@ -10,7 +10,7 @@ std::vector<IMonitorModule*>	Monitor::_modules;
 
 void *			Monitor::_mlx = NULL;
 
-void			Monitor::initMLX(void)
+void			Monitor::initNcurses(void)
 {
 	initscr();
 	cbreak();

@@ -9,6 +9,7 @@
 #include "CPUDisplay.hpp"
 #include <sys/types.h>
 #include <signal.h>
+#include <cstdlib>
 
 CPUModule::CPUModule(void) :
 	AMonitorModule(new CPUDisplay)
@@ -104,8 +105,7 @@ void	CPUModule::update(unsigned long time)
     _setThreadCount(top);
     _setCPUUsage(top);
     // std::cout << top << std::endl;
-    exit(0);
-	// _display->draw(&_data);
+	_display->draw(&_data);
 
 	static_cast<void>(time);
 }

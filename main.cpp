@@ -6,7 +6,7 @@ int		main(void)
 {
 	Monitor::registerModule(new CPUModule());
 
-	Monitor::initMLX();
+	Monitor::initNcurses();
 	Monitor::startMonitoring();
 
 	return 0;

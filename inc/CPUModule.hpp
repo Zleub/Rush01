@@ -7,8 +7,8 @@
 # include "AMonitorModule.hpp"
 # include "IMonitorDisplay.hpp"
 
-class CPUModule : public AMonitorModule 
-{	
+class CPUModule : public AMonitorModule
+{
 public:
 	typedef struct {
 		unsigned int		coreCount;
@@ -24,11 +24,10 @@ public:
 
 	void					update(unsigned long);
 	void					reset(void);
-			
-protected:			
+
+protected:
 	data_t					_data;
-	uint32_t				_prevTime;
-			
+
 	double					_getCPUFrequency(void);
 	void					_setThreadCount(std::string const &);
 	void					_setCPUUsage(std::string const &);

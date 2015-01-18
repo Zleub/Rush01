@@ -1,5 +1,6 @@
-
 #include "AMonitorDisplay.hpp"
+
+int		AMonitorDisplay::_nbrDisplay = 0;
 
 AMonitorDisplay::AMonitorDisplay(IMonitorModule * module) :
 	_module(module)
