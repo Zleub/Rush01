@@ -6,10 +6,13 @@
 
 void	OSDisplay::draw(void * d) const
 {
+	if (_window == NULL)
+		return ;
+
 	OSModule::data_t const *	data =
 		static_cast<OSModule::data_t const *>(d);
 
-		(void) data;
+	mvwprintw(_window->window, 1, 1, "%s", data->os.c_str());
 }
 
 int        OSDisplay::getWidth(void) const { return 10; }

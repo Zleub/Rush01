@@ -8,9 +8,11 @@ void	TimeDisplay::draw(void * d) const
 {
 	TimeModule::data_t const *	data =
 		static_cast<TimeModule::data_t const *>(d);
+		
+	box(_window->window, 0, 0);
+	wrefresh(_window->window);
 
-	std::cout << data->date << std::endl;
-	std::cout << data->time << std::endl;
+	(void) data;
 }
 
 int        TimeDisplay::getWidth(void) const { return 10; }

@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <cstdlib>
 
 #include "Monitor.hpp"
 #include "AMonitorDisplay.hpp"
@@ -18,14 +19,18 @@ void			Monitor::initNcurses(void)
 	start_color();
 }
 
+
 void			Monitor::registerModule(AMonitorModule * module)
 {
 	if (module == NULL)
 		return ;
 
+	window_t *	window = new window_t;
+
+	window->window = NULL;
 	_modules.push_back(module);
 
-	module->getDisplay()->setWindow(new window_t);
+	module->getDisplay()->setWindow(window);
 
 	createWindows();
 }
@@ -44,6 +49,8 @@ void			Monitor::createWindows(void)
 	int					x = 0;
 	int					y = 0;
 	int					maxY = 0;
+
+	std::cout << "--------\n" << std::endl;
 
 	for (; it < _modules.end(); it++)
 	{
@@ -64,14 +71,18 @@ void			Monitor::createWindows(void)
 		if (window->window == NULL)
 		{
 			window->window = newwin(
-				display->getWidth(),
 				display->getHeight(),
-				window->x,
-				window->y
+				display->getWidth(),
+				window->y,
+				window->x
 			);
 		}
 		else
+		{
 			mvwin(window->window, window->x, window->y);
+		}
+
+		x += display->getWidth();
 	}
 }
 
@@ -88,7 +99,7 @@ void			Monitor::update(void)
 		{
 			it = _modules.begin();
 			_lastUpdate = getTime();
-			log("Updating modules");
+			// log("Updating modules");
 
 			for (; it != _modules.end(); it++)
 				(*it)->update(_lastUpdate);

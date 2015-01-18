@@ -1,12 +1,18 @@
 #include <iostream>
 #include "Monitor.hpp"
 #include "CPUModule.hpp"
+#include "TimeModule.hpp"
+#include "UserInfoModule.hpp"
 
 int		main(void)
 {
-	Monitor::registerModule(new CPUModule());
-
 	Monitor::initNcurses();
+
+	Monitor::registerModule(new CPUModule());
+	Monitor::registerModule(new CPUModule());
+	Monitor::registerModule(new TimeModule());
+	Monitor::registerModule(new CPUModule());
+	// Monitor::registerModule(new UserInfoModule());
 	Monitor::startMonitoring();
 
 	return 0;

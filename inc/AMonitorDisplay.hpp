@@ -32,8 +32,8 @@ public:
 	virtual void			draw(void *) const;
 	void					setWindow(window_t *);
 	window_t *				getWindow(void) const;
-	virtual int	getWidth(void) const;
-	virtual int	getHeight(void) const;
+	virtual int				getWidth(void) const;
+	virtual int				getHeight(void) const;
 };
 
 #endif
