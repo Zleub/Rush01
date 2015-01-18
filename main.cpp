@@ -7,10 +7,23 @@
 #include "NetworkModule.hpp"
 #include "MemoryModule.hpp"
 
-int		main(void)
+int		main(int argc, char ** argv)
 {
-	Monitor::initNcurses();
+	if (argc != 2) {
+		std::cout << "Plz, don't mess around: ./ft_gkrellm [graphic|console]" << std::endl;
+		return (-1);
+	}
 
+	if (std::string(argv[1]) == "graphic")
+		Monitor::initMLX();
+	else if (std::string(argv[1]) == "console")
+		Monitor::initNcurses();
+	else {
+		std::cout << "Plz, don't mess around: ./ft_gkrellm [graphic|console]" << std::endl;
+		return (-1);
+	}
+
+	Monitor::registerModule(new UserInfoModule());
 	Monitor::registerModule(new CPUModule());
 	Monitor::registerModule(new OSModule());
 	Monitor::registerModule(new MemoryModule());

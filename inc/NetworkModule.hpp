@@ -18,7 +18,7 @@ public:
 
 	NetworkModule(void);
 
-	void		update(unsigned long);
+	void		update(unsigned long, std::string);
 	void		reset(void);
 
 protected:

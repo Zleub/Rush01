@@ -9,7 +9,7 @@ NetworkModule::NetworkModule(void) :
 	AMonitorModule(new NetworkDisplay)
 {}
 
-void	NetworkModule::update(unsigned long time)
+void	NetworkModule::update(unsigned long time, std::string)
 {
     size_t  occ;
 
@@ -29,7 +29,6 @@ void	NetworkModule::update(unsigned long time)
 
     try
     {
-
         std::string top = Util::execute("/usr/bin/top", args, 500);
 
         occ = top.find("packets:");

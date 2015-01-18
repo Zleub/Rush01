@@ -6,7 +6,7 @@
 #    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 10:50:05 by adebray           #+#    #+#              #
-#    Updated: 2015/01/18 06:29:10 by adebray          ###   ########.fr        #
+#    Updated: 2015/01/18 14:42:01 by adebray          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC			=	$(shell ls -1 ./src/*.cpp)
 OBJ			=	$(SRC:.cpp=.o)
 
 CC			=	g++
-LIBFLAG		=	-lncurses
+LIBFLAG		=	-lncurses -lmlx -L/usr/X11/lib -lXext -lX11
 EXTRA		=	-Woverloaded-virtual
 CCFLAGS		=	-Iinc $(LIBFLAG) $(EXTRA) -Werror -Wall -Wextra
 

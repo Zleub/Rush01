@@ -9,7 +9,7 @@ TimeModule::TimeModule(void) :
 	AMonitorModule(new TimeDisplay)
 {}
 
-void	TimeModule::update(unsigned long time)
+void	TimeModule::update(unsigned long time, std::string drawtype)
 {
 	time_t		now = std::time(0);
     struct tm	tstruct;
@@ -23,7 +23,10 @@ void	TimeModule::update(unsigned long time)
     strftime(buf, sizeof(buf), "%X", &tstruct);
     _data.time  = buf;
 
-	_display->draw(&_data);
+    if (drawtype == "console")
+        _display->draw(&_data);
+    else if (drawtype == "graphic")
+        _display->drawMLX(&_data);
 
 	static_cast<void>(time);
 }

@@ -8,6 +8,7 @@ class UserInfoDisplay : public IMonitorDisplay, public AMonitorDisplay
 {
 public:
 	void			draw(void *) const;
+	void			drawMLX(void *) const;
 	int	getWidth(void) const;
 	int	getHeight(void) const;
 };

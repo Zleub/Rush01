@@ -6,8 +6,8 @@
 # include "AMonitorModule.hpp"
 # include "IMonitorDisplay.hpp"
 
-class UserInfoModule : public AMonitorModule 
-{	
+class UserInfoModule : public AMonitorModule
+{
 public:
 	typedef struct {
 		std::string		hostname;
@@ -16,7 +16,7 @@ public:
 
 	UserInfoModule(void);
 
-	void		update(unsigned long);
+	void		update(unsigned long, std::string);
 	void		reset(void);
 
 protected:

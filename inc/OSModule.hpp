@@ -6,8 +6,8 @@
 # include "AMonitorModule.hpp"
 # include "IMonitorDisplay.hpp"
 
-class OSModule : public AMonitorModule 
-{	
+class OSModule : public AMonitorModule
+{
 public:
 	typedef struct {
 		std::string		os;
@@ -18,7 +18,7 @@ public:
 
 	OSModule(void);
 
-	void		update(unsigned long);
+	void		update(unsigned long, std::string);
 	void		reset(void);
 
 protected:

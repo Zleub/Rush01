@@ -34,7 +34,7 @@ void	MemoryModule::_buildHistory(void)
 	_data.history.insert(_data.history.begin(), _data.used);
 }
 
-void	MemoryModule::update(unsigned long time)
+void	MemoryModule::update(unsigned long time, std::string drawtype)
 {
 	if (KERN_SUCCESS == host_page_size(_machPort, &_pageSize) &&
 		KERN_SUCCESS == host_statistics64(_machPort, HOST_VM_INFO,
@@ -47,7 +47,10 @@ void	MemoryModule::update(unsigned long time)
 
 	_buildHistory();
 
-	_display->draw(&_data);
+    if (drawtype == "console")
+    	_display->draw(&_data);
+    else if (drawtype == "graphic")
+        _display->drawMLX(&_data);
 
 	static_cast<void>(time);
 }

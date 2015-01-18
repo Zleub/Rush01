@@ -9,7 +9,7 @@ OSModule::OSModule(void) :
 	AMonitorModule(new OSDisplay)
 {}
 
-void	OSModule::update(unsigned long time)
+void	OSModule::update(unsigned long time, std::string drawtype)
 {
     struct utsname  d;
 
@@ -20,7 +20,10 @@ void	OSModule::update(unsigned long time)
     _data.version = std::string(d.version);
     _data.machine = std::string(d.machine);
 
-    _display->draw(&_data);
+    if (drawtype == "console")
+    	_display->draw(&_data);
+    else if (drawtype == "graphic")
+        _display->drawMLX(&_data);
 
 	static_cast<void>(time);
 }
