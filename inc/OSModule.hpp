@@ -10,8 +10,10 @@ class OSModule : public AMonitorModule
 {	
 public:
 	typedef struct {
-		std::string		date;
-		std::string		time;
+		std::string		os;
+		std::string		release;
+		std::string		version;
+		std::string		machine;
 	}					data_t;
 
 	OSModule(void);
