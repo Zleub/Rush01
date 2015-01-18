@@ -103,7 +103,7 @@ void			Monitor::initNcurses(void)
 void			Monitor::initMLX(void) {
 	_type = "graphic";
 	_mlx = mlx_init();
-	_win = mlx_new_window(_mlx, 640, 480, (char*)"ft_gkrellm");
+	_win = mlx_new_window(_mlx, 1280, 800, (char*)"ft_gkrellm");
 }
 
 void			Monitor::registerModule(AMonitorModule * module)
@@ -204,13 +204,11 @@ void			Monitor::createImages(void)
 	int					y = 0;
 	int					maxY = 0;
 
-	std::cout << "--------\n" << std::endl;
-
 	for (; it < _modules.end(); it++)
 	{
 		display = (*it)->getDisplay();
 
-		if (static_cast<int>(x + display->getWidth() * 8) > 640)
+		if (static_cast<int>(x + display->getWidth() * 10) > 640)
 		{
 			x = 0;
 			y += maxY;
@@ -220,12 +218,11 @@ void			Monitor::createImages(void)
 		image = display->getImage();
 		image->x = x;
 		image->y = y;
-		std::cout << (int*)image->image << std::endl;
-		maxY = std::max(maxY, display->getHeight() * 8);
+		maxY = std::max(maxY, display->getHeight() * 12);
 
 		if (image->image == NULL)
 		{
-			image->image = mlx_new_image(_mlx, display->getWidth() * 8, display->getHeight() * 8);
+			image->image = mlx_new_image(_mlx, display->getWidth() * 10, display->getHeight() * 12);
 
 		}
 		else
@@ -234,7 +231,7 @@ void			Monitor::createImages(void)
 			;
 		}
 
-		x += display->getWidth() * 8;
+		x += display->getWidth() * 10;
 	}
 }
 

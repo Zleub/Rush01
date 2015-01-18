@@ -9,8 +9,15 @@ void	TimeDisplay::drawMLX(void * d) const
 	TimeModule::data_t const *	data =
 		static_cast<TimeModule::data_t const *>(d);
 
-	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 32 , 0xff0000, (char*)data->date.c_str() );
-	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 44 , 0xff0000, (char*)data->time.c_str() );
+
+	int i = 10;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)"Time" );
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)"-------------------------------------------" );
+	i += 24;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)data->date.c_str() );
+	i += 12;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + i , 0xff0000, (char*)data->time.c_str() );
 }
 
 void	TimeDisplay::draw(void * d) const
