@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "Monitor.hpp"
 
-unsigned long	Monitor::_updateInterval = 500000;
+unsigned long	Monitor::_updateInterval = 1000000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
 std::vector<IMonitorModule*>	Monitor::_modules;
 
