@@ -6,8 +6,8 @@
 # include <mach/mach_host.h>
 # include "AMonitorModule.hpp"
 
-class MemoryModule : public AMonitorModule 
-{	
+class MemoryModule : public AMonitorModule
+{
 public:
 	typedef struct {
 		int64_t			total;
@@ -17,7 +17,7 @@ public:
 
 	MemoryModule(void);
 
-	void		update(unsigned long);
+	void		update(unsigned long, std::string);
 	void		reset(void);
 
 protected:

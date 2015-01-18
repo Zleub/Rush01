@@ -8,6 +8,49 @@
 
 #include <ncurses.h>
 
+void	CPUDisplay::drawMLX(void * d) const {
+	std::stringstream ss;
+
+	CPUModule::data_t const *	data =
+	static_cast<CPUModule::data_t const *>(d);
+
+	(void)data;
+
+	// drawRectangle(_imageMLX->x, _imageMLX->y, 50, 50);
+
+	// mlx_put_image_to_window(Monitor::getMlx(), Monitor::getWin(), _imageMLX->image, _imageMLX->x, _imageMLX->y);
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 10 , 0xff0000, (char*)data->name.c_str() );
+	ss.str("");
+	ss.clear();
+	ss << data->coreCount;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 32 , 0xff0000, (char*)ss.str().c_str() );
+	ss.str("");
+	ss.clear();
+	ss << data->frequency;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 44 , 0xff0000, (char*)ss.str().c_str() );
+	ss.str("");
+	ss.clear();
+	ss << data->processCount;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 56 , 0xff0000, (char*)ss.str().c_str() );
+	ss.str("");
+	ss.clear();
+	ss << data->threadCount;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 68 , 0xff0000, (char*)ss.str().c_str() );
+	ss.str("");
+	ss.clear();
+	ss << data->userUsage;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 80 , 0xff0000, (char*)ss.str().c_str() );
+	ss.str("");
+	ss.clear();
+	ss << data->systemUsage;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 92 , 0xff0000, (char*)ss.str().c_str() );
+	ss.str("");
+	ss.clear();
+	ss << data->idle;
+	mlx_string_put (Monitor::getMlx(), Monitor::getWin(), _imageMLX->x, _imageMLX->y + 104 , 0xff0000, (char*)ss.str().c_str() );
+	ss.str("");
+}
+
 void	CPUDisplay::draw(void * d) const
 {
 	if (_window == NULL)

@@ -55,7 +55,7 @@ void    CPUModule::_setCPUUsage(std::string const & top)
     _data.idle = atof(line.substr(line.find("sys") + 5, 5).c_str());
 }
 
-void	CPUModule::update(unsigned long time)
+void	CPUModule::update(unsigned long time, std::string drawtype)
 {
     _data.coreCount = sysconf(_SC_NPROCESSORS_ONLN);
     _data.frequency = _getCPUFrequency();
@@ -86,7 +86,10 @@ void	CPUModule::update(unsigned long time)
     _setThreadCount(top);
     _setCPUUsage(top);
 
-	_display->draw(&_data);
+    if (drawtype == "console")
+    	_display->draw(&_data);
+    else if (drawtype == "graphic")
+        _display->drawMLX(&_data);
 
 	static_cast<void>(time);
 }

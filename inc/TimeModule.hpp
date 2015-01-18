@@ -6,8 +6,8 @@
 # include "AMonitorModule.hpp"
 # include "IMonitorDisplay.hpp"
 
-class TimeModule : public AMonitorModule 
-{	
+class TimeModule : public AMonitorModule
+{
 public:
 	typedef struct {
 		std::string		date;
@@ -16,7 +16,7 @@ public:
 
 	TimeModule(void);
 
-	void		update(unsigned long);
+	void		update(unsigned long, std::string);
 	void		reset(void);
 
 protected:

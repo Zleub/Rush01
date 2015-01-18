@@ -10,8 +10,13 @@ unsigned long	Monitor::_updateInterval = 1000000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
 std::vector<AMonitorModule*>	Monitor::_modules;
 
+void *		Monitor::_mlx = NULL;
+void *		Monitor::_win = NULL;
+std::string	Monitor::_type;
+
 void			Monitor::initNcurses(void)
 {
+	_type = "console";
 	initscr();
 	cbreak();
 	noecho();
@@ -19,6 +24,11 @@ void			Monitor::initNcurses(void)
 	start_color();
 }
 
+void			Monitor::initMLX(void) {
+	_type = "graphic";
+	_mlx = mlx_init();
+	_win = mlx_new_window(_mlx, 640, 480, (char*)"ft_gkrellm");
+}
 
 void			Monitor::registerModule(AMonitorModule * module)
 {
@@ -26,19 +36,28 @@ void			Monitor::registerModule(AMonitorModule * module)
 		return ;
 
 	window_t *	window = new window_t;
-
 	window->window = NULL;
+
+	image_t *	imageMLX = new image_t;
+	imageMLX->image = NULL;
+
 	_modules.push_back(module);
-
 	module->getDisplay()->setWindow(window);
+	module->getDisplay()->setImage(imageMLX);
 
-	createWindows();
+	if (_type == "console")
+		createWindows();
+	else if (_type == "graphic")
+		createImages();
 }
 
 void			Monitor::startMonitoring(void)
 {
 	_lastUpdate = getTime();
-	update();
+	if (_type == "console")
+		update();
+	else if (_type == "graphic")
+		updateMLX();
 }
 
 void			Monitor::createWindows(void)
@@ -62,7 +81,7 @@ void			Monitor::createWindows(void)
 			y += maxY;
 			maxY = 0;
 		}
-		
+
 		window = display->getWindow();
 		window->x = x;
 		window->y = y;
@@ -86,6 +105,73 @@ void			Monitor::createWindows(void)
 	}
 }
 
+void			Monitor::createImages(void)
+{
+	moduleIterator_t	it = _modules.begin();
+	AMonitorDisplay *	display;
+	image_t *			image;
+	int					x = 0;
+	int					y = 0;
+	int					maxY = 0;
+
+	std::cout << "--------\n" << std::endl;
+
+	for (; it < _modules.end(); it++)
+	{
+		display = (*it)->getDisplay();
+
+		if (static_cast<int>(x + display->getWidth() * 15) > 640)
+		{
+			x = 0;
+			y += maxY;
+			maxY = 0;
+		}
+
+		image = display->getImage();
+		image->x = x;
+		image->y = y;
+		std::cout << (int*)image->image << std::endl;
+		maxY = std::max(maxY, display->getHeight() * 10);
+
+		if (image->image == NULL)
+		{
+			image->image = mlx_new_image(_mlx, display->getWidth() * 15, display->getHeight() * 10);
+
+		}
+		else
+		{
+			// mvwin(image->image, image->x, image->y);
+			;
+		}
+
+		x += display->getWidth() * 15;
+	}
+}
+
+int				Monitor::drawMLX(void) {
+	moduleIterator_t	it;
+	unsigned long 		time;
+
+	time = getTime();
+
+	if (time - _lastUpdate > _updateInterval)
+	{
+		it = _modules.begin();
+		_lastUpdate = getTime();
+		// log("Updating modules");
+
+		mlx_clear_window (_mlx, _win);
+		for (; it != _modules.end(); it++)
+			(*it)->update(_lastUpdate, "graphic");
+	}
+	return 0;
+}
+
+void			Monitor::updateMLX(void) {
+	mlx_loop_hook(_mlx, drawMLX, NULL);
+	mlx_loop(_mlx);
+}
+
 void			Monitor::update(void)
 {
 	moduleIterator_t	it;
@@ -102,7 +188,7 @@ void			Monitor::update(void)
 			// log("Updating modules");
 
 			for (; it != _modules.end(); it++)
-				(*it)->update(_lastUpdate);
+				(*it)->update(_lastUpdate, "console");
 		}
 	}
 }
@@ -171,4 +257,15 @@ double		Monitor::getUpdateInterval(void)
 std::vector<AMonitorModule*> &	Monitor::getModules(void)
 {
 	return _modules;
+}
+
+void *		Monitor::getMlx(void) {
+	return _mlx;
+}
+void *		Monitor::getWin(void) {
+	return _win;
+}
+
+std::string		Monitor::getType(void) {
+	return _type;
 }

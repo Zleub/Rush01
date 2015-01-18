@@ -1,4 +1,5 @@
 
+
 #ifndef CPU_MODULE_HPP
 # define CPU_MODULE_HPP
 
@@ -23,7 +24,7 @@ public:
 
 	CPUModule(void);
 
-	void					update(unsigned long);
+	void					update(unsigned long, std::string drawtype);
 	void					reset(void);
 
 protected:

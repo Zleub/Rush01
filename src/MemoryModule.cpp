@@ -25,7 +25,7 @@ MemoryModule::MemoryModule(void) :
 	_count = sizeof(_vmStats) / sizeof(natural_t);
 }
 
-void	MemoryModule::update(unsigned long time)
+void	MemoryModule::update(unsigned long time, std::string)
 {
 	if (KERN_SUCCESS == host_page_size(_machPort, &_pageSize) &&
 		KERN_SUCCESS == host_statistics64(_machPort, HOST_VM_INFO,

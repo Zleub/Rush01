@@ -8,7 +8,7 @@ UserInfoModule::UserInfoModule(void) :
 	AMonitorModule(new UserInfoDisplay)
 {}
 
-void	UserInfoModule::update(unsigned long time)
+void	UserInfoModule::update(unsigned long time, std::string drawtype)
 {
 	char	buf[50];
 
@@ -18,7 +18,10 @@ void	UserInfoModule::update(unsigned long time)
 	getlogin_r(buf, 50);
 	_data.username = std::string(buf);
 
-	_display->draw(&_data);
+    if (drawtype == "console")
+    	_display->draw(&_data);
+    else if (drawtype == "graphic")
+        _display->drawMLX(&_data);
 
 	static_cast<void>(time);
 }

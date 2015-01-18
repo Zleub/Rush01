@@ -4,11 +4,22 @@
 #include "TimeDisplay.hpp"
 #include "TimeModule.hpp"
 
+// void	TimeDisplay::drawMXL(void * d) const
+// {
+// 	TimeModule::data_t const *	data =
+// 		static_cast<TimeModule::data_t const *>(d);
+
+// 	box(_window->window, 0, 0);
+// 	wrefresh(_window->window);
+
+// 	(void) data;
+// }
+
 void	TimeDisplay::draw(void * d) const
 {
 	TimeModule::data_t const *	data =
 		static_cast<TimeModule::data_t const *>(d);
-		
+
 	box(_window->window, 0, 0);
 	wrefresh(_window->window);
 

@@ -9,7 +9,7 @@ TimeModule::TimeModule(void) :
 	AMonitorModule(new TimeDisplay)
 {}
 
-void	TimeModule::update(unsigned long time)
+void	TimeModule::update(unsigned long time, std::string)
 {
 	time_t		now = std::time(0);
     struct tm	tstruct;

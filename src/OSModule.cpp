@@ -9,7 +9,7 @@ OSModule::OSModule(void) :
 	AMonitorModule(new OSDisplay)
 {}
 
-void	OSModule::update(unsigned long time)
+void	OSModule::update(unsigned long time, std::string)
 {
     struct utsname  d;
 
