@@ -7,7 +7,6 @@
 #include "CPUModule.hpp"
 #include "CPUDisplay.hpp"
 #include "Util.hpp"
-#include <iostream>
 
 CPUModule::CPUModule(void) :
 	AMonitorModule(new CPUDisplay)
@@ -37,6 +36,9 @@ void    CPUModule::_setThreadCount(std::string const & top)
 {
     size_t  occ = top.find(" threads");
 
+    if (occ == std::string::npos)
+        return ;
+
     while (top[--occ] != ' ');
 
     _data.threadCount = atoi(top.substr(occ, 5).c_str());
@@ -45,8 +47,14 @@ void    CPUModule::_setThreadCount(std::string const & top)
 void    CPUModule::_setCPUUsage(std::string const & top)
 {
     size_t      occ;
+    std::string line;
 
-    std::string     line = top.substr(top.find("CPU usage:"), 50);
+    occ = top.find("CPU usage:");
+
+    if (top.size() > occ)
+        line = top.substr(occ, 50);
+    else
+        return ;
 
     if (line.size() > 11)
         _data.userUsage = atof(line.substr(11, 5).c_str());
@@ -86,7 +94,11 @@ void	CPUModule::update(unsigned long time)
 
     std::string top = Util::execute("/usr/bin/top", args, 500);
 
-    _data.processCount = atoi(top.substr(11, 3).c_str());
+    if (top.size() > 11)
+        _data.processCount = atoi(top.substr(11, 3).c_str());
+    else
+        _data.processCount = 0;
+    
     _setThreadCount(top);
     _setCPUUsage(top);
 
