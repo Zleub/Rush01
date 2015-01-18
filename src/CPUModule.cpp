@@ -1,9 +1,7 @@
 
 #include <unistd.h>
-#include <iostream>
 #include <cmath>
 #include <sys/sysctl.h>
-#include <sys/utsname.h>
 #include <cstdlib>
 #include "Monitor.hpp"
 #include "CPUModule.hpp"
