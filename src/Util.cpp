@@ -32,6 +32,7 @@ std::string		Util::execute(char const * path, char ** const args, unsigned int b
 
         read(pipefd[0], buffer, bufferSize);
 		kill(pid, SIGINT);
+        close(pipefd[0]);
 
         return std::string(buffer);
     }

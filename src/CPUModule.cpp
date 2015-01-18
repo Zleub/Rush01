@@ -11,19 +11,15 @@
 
 CPUModule::CPUModule(void) :
 	AMonitorModule(new CPUDisplay)
-{}
+{
+    char *  args[4] = {
+        (char *) "sysctl",
+        (char *) "-n",
+        (char *) "machdep.cpu.brand_string",
+        NULL
+    };
 
-double get_wall_time(){
-    struct timeval time;
-    if (gettimeofday(&time,NULL)){
-        //  Handle error
-        return 0;
-    }
-    return (double)time.tv_sec + (double)time.tv_usec * .000001;
-}
-
-double get_cpu_time(){
-    return (double)clock() / CLOCKS_PER_SEC;
+    _data.name = std::string(Util::execute("/usr/sbin/sysctl", args, 100));
 }
 
 double     CPUModule::_getCPUFrequency(void)
@@ -48,28 +44,36 @@ void    CPUModule::_setThreadCount(std::string const & top)
 
 void    CPUModule::_setCPUUsage(std::string const & top)
 {
+    size_t      occ;
+
     std::string     line = top.substr(top.find("CPU usage:"), 50);
 
-    _data.userUsage = atof(line.substr(11, 5).c_str());
-    _data.systemUsage = atof(line.substr(line.find("user") + 6, 5).c_str());
-    _data.idle = atof(line.substr(line.find("sys") + 5, 5).c_str());
+    if (line.size() > 11)
+        _data.userUsage = atof(line.substr(11, 5).c_str());
+    else
+        _data.userUsage = 0;
+
+
+    occ = line.find("user") + 6;
+
+    if (line.size() > occ)
+        _data.systemUsage = atof(line.substr(occ, 5).c_str());
+    else
+        _data.systemUsage = 0;
+
+
+    occ = line.find("sys") + 5;
+
+    if (line.size() > occ)
+        _data.idle = atof(line.substr(occ, 5).c_str());
+    else
+        _data.idle = 0;
 }
 
 void	CPUModule::update(unsigned long time)
 {
     _data.coreCount = sysconf(_SC_NPROCESSORS_ONLN);
     _data.frequency = _getCPUFrequency();
-
-    {
-        char *  args[4] = {
-            (char *) "sysctl",
-            (char *) "-n",
-            (char *) "machdep.cpu.brand_string",
-            NULL
-        };
-
-        _data.name = std::string(Util::execute("/usr/sbin/sysctl", args, 100));
-    }
 
     char *  args[6] = {
         (char *) "top",
@@ -80,7 +84,7 @@ void	CPUModule::update(unsigned long time)
         NULL
     };
 
-    std::string top = Util::execute("/usr/bin/top", args, 1024);
+    std::string top = Util::execute("/usr/bin/top", args, 500);
 
     _data.processCount = atoi(top.substr(11, 3).c_str());
     _setThreadCount(top);

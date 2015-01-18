@@ -8,8 +8,8 @@ class TimeDisplay : public IMonitorDisplay, public AMonitorDisplay
 {
 public:
 	void			draw(void *) const;
-	int	getWidth(void) const;
-	int	getHeight(void) const;
+	int				getWidth(void) const;
+	int				getHeight(void) const;
 };
 
 #endif

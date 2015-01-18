@@ -8,6 +8,8 @@
 
 #include <ncurses.h>
 
+#define BAR_WIDTH 27
+
 void	CPUDisplay::draw(void * d) const
 {
 	if (_window == NULL)
@@ -16,43 +18,50 @@ void	CPUDisplay::draw(void * d) const
 	CPUModule::data_t const *	data =
 	static_cast<CPUModule::data_t const *>(d);
 
-	mvwprintw(_window->window, 1, 1, "%s", data->name.c_str());
-	mvwprintw(_window->window, 2, 1, "coreCount: %d", data->coreCount);
-	mvwprintw(_window->window, 3, 1, "frequency: %f", data->frequency);
-	mvwprintw(_window->window, 4, 1, "processCount: %lu", data->processCount);
-	mvwprintw(_window->window, 5, 1, "threadCount: %lu", data->threadCount);
-	mvwprintw(_window->window, 6, 1, "userUsage: %.2f", data->userUsage);
-	mvwprintw(_window->window, 7, 1, "systemUsage: %.2f", data->systemUsage);
-	mvwprintw(_window->window, 8, 1, "idle: %.2f", data->idle);
+	mvwprintw(_window->window, 1, 21, "CPU");
+	mvwprintw(_window->window, 2, 1, "-------------------------------------------");
 
+	mvwprintw(_window->window, 4, 2, "%s", data->name.c_str());
+	mvwprintw(_window->window, 6, 2, "Number of cores: %d", data->coreCount);
+	mvwprintw(_window->window, 8, 2, "CPU frequency: %.2f GHz", data->frequency);
+	mvwprintw(_window->window, 7, 2, "Number of processes: %lu", data->processCount);
+	mvwprintw(_window->window, 9, 2, "Number of threads: %lu", data->threadCount);
 
-	int i = 1;
-	int userpercent = getWidth() * data->userUsage / 100;
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	wattrset(_window->window, COLOR_PAIR(1));
-	for(int j = 0; j < userpercent; j++) {
-		mvwprintw(_window->window, 9, i + j, "#");
+	{
+		mvwprintw(_window->window, 11, 2, "User");
+		mvwprintw(_window->window, 11, 37, "%5.2f%%", data->userUsage);
+
+		unsigned int	value = BAR_WIDTH * data->userUsage / 100;
+
+		for (unsigned int i = 0; i < value; i++)
+			mvwprintw(_window->window, 11, 9 + i, "|");
 	}
-	wattroff(_window->window, COLOR_PAIR(1));
 
-	i += userpercent;
+	{
+		mvwprintw(_window->window, 12, 2, "System");
+		mvwprintw(_window->window, 12, 37, "%5.2f%%", data->systemUsage);
 
-	int systempercent = getWidth() * data->systemUsage / 100;
-	init_pair(2, 202, COLOR_BLACK);
-	wattrset(_window->window, COLOR_PAIR(2));
-	for(int j = 0; j < systempercent; j++) {
-		mvwprintw(_window->window, 9, i + j, "#");
+		unsigned int	value = BAR_WIDTH * data->systemUsage / 100;
+
+		for (unsigned int i = 0; i < value; i++)
+			mvwprintw(_window->window, 12, 9 + i, "|");
 	}
-	wattroff(_window->window, COLOR_PAIR(2));
 
-	mvwprintw(_window->window, 14, 1, "%d", userpercent);
-	mvwprintw(_window->window, 15, 1, "%f", getWidth() * data->userUsage / 100);
-	mvwprintw(_window->window, 16, 1, "%f", getWidth() * data->idle / 100);
+	{
+		mvwprintw(_window->window, 13, 2, "Idle");
+		mvwprintw(_window->window, 13, 37, "%5.2f%%", data->idle);
+
+		unsigned int	value = BAR_WIDTH * data->idle / 100;
+
+		for (unsigned int i = 0; i < value; i++)
+			mvwprintw(_window->window, 13, 9 + i, "|");
+	}
+
 	box(_window->window, 0, 0);
 	wrefresh(_window->window);
 
 	(void) data;
 }
 
-int        CPUDisplay::getWidth(void) const { return 20; }
+int        CPUDisplay::getWidth(void) const { return 45; }
 int        CPUDisplay::getHeight(void) const { return 15; }

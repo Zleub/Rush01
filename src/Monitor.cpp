@@ -6,7 +6,7 @@
 #include "Monitor.hpp"
 #include "AMonitorDisplay.hpp"
 
-unsigned long	Monitor::_updateInterval = 1000000;
+unsigned long	Monitor::_updateInterval = 500000;
 unsigned long	Monitor::_lastUpdate = Monitor::getTime();
 std::vector<AMonitorModule*>	Monitor::_modules;
 
@@ -17,6 +17,7 @@ void			Monitor::initNcurses(void)
 	noecho();
 	keypad(stdscr, TRUE);
 	start_color();
+	curs_set(0);
 }
 
 
@@ -50,8 +51,6 @@ void			Monitor::createWindows(void)
 	int					y = 0;
 	int					maxY = 0;
 
-	std::cout << "--------\n" << std::endl;
-
 	for (; it < _modules.end(); it++)
 	{
 		display = (*it)->getDisplay();
@@ -78,9 +77,7 @@ void			Monitor::createWindows(void)
 			);
 		}
 		else
-		{
-			mvwin(window->window, window->x, window->y);
-		}
+			mvwin(window->window, window->y, window->x);
 
 		x += display->getWidth();
 	}

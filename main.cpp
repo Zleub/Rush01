@@ -8,11 +8,10 @@ int		main(void)
 {
 	Monitor::initNcurses();
 
-	Monitor::registerModule(new CPUModule());
-	Monitor::registerModule(new CPUModule());
 	Monitor::registerModule(new TimeModule());
 	Monitor::registerModule(new CPUModule());
-	// Monitor::registerModule(new UserInfoModule());
+	Monitor::registerModule(new UserInfoModule());
+
 	Monitor::startMonitoring();
 
 	return 0;
